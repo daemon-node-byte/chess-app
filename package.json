@@ -2,6 +2,7 @@
   "name": "chess-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@iconify/react": "^5.0.2",
     "@testing-library/jest-dom": "^5.17.0",

@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.game-piece {
+  font-size: 3.5rem;
+  text-shadow: 6px 6px 10px black;
+}
+
+.white-piece {
+  stroke: black;
+  stroke-width: 15px;
+}
+
+.black-piece {
+  stroke: white;
+  stroke-width: 15px;
+}
