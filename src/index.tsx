@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { GameContext, initContext } from './gameContext';
+import { gameReducer, type ActionType } from './gameReducer';
+import type { GameContextType } from './types';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const AppProvider = () => {
+  const [state, dispatch] = useReducer<React.Reducer<GameContextType, ActionType>>(
+    gameReducer,
+    initContext
+  );
+
+  return (
+    <GameContext.Provider value={{ ...state, dispatch }}>
+      <App />
+    </GameContext.Provider>
+  );
+}
+
 root.render(
   <React.StrictMode>
-    <App />
+      <AppProvider />
   </React.StrictMode>
 );
 

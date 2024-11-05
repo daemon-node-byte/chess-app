@@ -1,7 +1,7 @@
 // import iconString from './chessPieces.js';
-const DEFAULT_POSITION = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - 0 1'
 
-export const pieceletterToFullName = (piece: string) => {
+
+export const pieceLetterToFullName = (piece: string) => {
   switch (piece) {
     case 'p':
     case 'P':  
@@ -22,7 +22,7 @@ export const pieceletterToFullName = (piece: string) => {
     case 'K':
       return 'king'
     default:
-      return ''
+      return 'pawn'
   }
 }
 
@@ -79,29 +79,3 @@ export const canInPassant = (fen: string) => {
 }
 
 export const whoIsTurn = (fen: string) => fen.split(' ')[1] === 'w' ? 'white' : 'black'
-
-export const parseFENToGameArray = (fen: string) => {
-  const defaultFen = DEFAULT_POSITION
-  const rows = (fen || defaultFen).split(' ')[0].split('/')
-  const regEx = /\d/g
-  const result: string[][] = []
-rows.forEach((row) => {
-   const rowArr = row.split('')
-    const newRow: string[] = []
-    rowArr.forEach((char) => {
-      
-
-      if(!regEx.test(char)) {
-        newRow.push(char)
-      } else {
-        const num = parseInt(char)
-        for(let i = 0; i < num; i++) {
-          newRow.push(' ')
-        }
-      }
-
-    })
-    result.push(newRow) 
-})
-return result
-}

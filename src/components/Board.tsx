@@ -1,30 +1,30 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Chess } from 'chess.js'
-import { createIconString } from '../utils/renders'
-import { Icon } from '@iconify/react'
-
+import React, { useContext } from "react";
+import styled from "styled-components";
+import { createIconString } from "../utils/renders";
+import { Icon } from "@iconify/react";
+import type { BoardSquare, BoardRow, BoardDataType } from "../types";
+import { COLORS } from "../constants/colors";
+import { GameContext } from "../gameContext";
 
 const BoardWrapper = styled.div`
   display: grid;
   position: relative;
-  grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  gap: 1px;
-  width: 650px;
-  height: 650px;
+  grid-template-columns: repeat(8, 1fr);
+  width: 680px;
+  height: 680px;
   background-color: transparent;
-`
+`;
 
-const Square = styled.div<{ color: string}>`
-  background-color: ${props => props.color};
+const Square = styled.div<{ color: string }>`
+  background-color: ${(props) => props.color};
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-`
+`;
 
 const CoordinatesMarker = styled.span`
   position: absolute;
@@ -32,40 +32,109 @@ const CoordinatesMarker = styled.span`
   right: 0;
   color: #fff;
   font-size: 14px;
-`
+`;
 
-const initLayout = [
-  ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-]
+const Piece = ({
+  className,
+  icon,
+}: {
+  className: string;
+  player: string;
+  icon: string;
+}) => {
+  return <Icon icon={icon} className={`${className}`} />;
+};
 
+const ChessPiece = styled(Piece)<{ player: string }>`
+  fill: ${(props) =>
+    props.player === "white" ? COLORS.WHITE.PRIMARY : COLORS.BLACK.PRIMARY};
+  stroke: ${(props) =>
+    props.player === "white" ? COLORS.WHITE.SECONDARY : COLORS.BLACK.SECONDARY};
+  stroke-width: 15px;
+  max-width: 100%;
+  max-height: 100%;
+  width: 70px;
+  height: 70px;
+`;
 
-type GameLayout = string[][];
+const Tile = ({
+  data,
+  tileColor,
+}: {
+  data: BoardSquare;
+  tileColor: string;
+}) => {
+  return (
+    <Square id={`tile-${data.coords}`} color={tileColor}>
+      {data.piece && (
+        <ChessPiece
+          player={data.player ?? ""}
+          icon={createIconString(data.piece)}
+          className={`${data.player}-piece`}
+        />
+      )}
+      <CoordinatesMarker>{data.coords}</CoordinatesMarker>
+    </Square>
+  );
+};
 
 export default function Board() {
+  const [state, setState] = React.useState<BoardDataType>([])
+  const file = ["a", "b", "c", "d", "e", "f", "g", "h"];
+  const rank = ["8", "7", "6", "5", "4", "3", "2", "1"];
+  const context = useContext(GameContext);
+  React.useEffect(() => {
+    console.log("🚀 ~ Board ~ state:", state)
+    if (context?.position) {
+      console.log("🚀 ~ React.useEffect ~ context:", context)
+      setState([...context.position])
+    }
+  }, [context?.position, context?.position.length])
+  if (state.length === 0) {
+    return (
+      <BoardWrapper>
+        {file.map((fileVal, i) =>
+          rank.map((rankVal, j) => {
+            return (
+              <Tile
+                key={`${file[j]}${rank[i]}`}
+                data={{
+                  coords: `${file[j]}${rank[i]}`,
+                  player: null,
+                  piece: null,
+                }}
+                tileColor={
+                  (parseInt(rankVal) + file.indexOf(fileVal)) % 2 === 0
+                    ? COLORS.TILES.LIGHT
+                    : COLORS.TILES.DARK
+                }
+              />
+            );
+          })
+        )}
+      </BoardWrapper>
+    );
+  } else if(state?.length && state.length > 0) {
+    return (
+      <BoardWrapper>
+        {state.map((row: BoardRow, i: number) => {
+          const tileColors =
+            i % 2 === 0
+              ? { a: COLORS.TILES.LIGHT, b: COLORS.TILES.DARK }
+              : { a: COLORS.TILES.DARK, b: COLORS.TILES.LIGHT };
+          return (<React.Fragment key={`${i}-frag-${i * 3}`}>
+          {row.map((tileData: BoardSquare, j: number) => {
+            const color = j % 2 === 0 ? tileColors.a : tileColors.b;
+            return (
+              <Tile key={`${tileData.coords}-${j * 3}`} data={tileData} tileColor={color} />
+            );
+          })}
+          </React.Fragment>)
+        })}
+      </BoardWrapper>
+    );
+  } else {
+    return null;
+  }
 
-  const [layout, setLayout] = React.useState<GameLayout>(initLayout)
-  const tile = {lite: '#9b9b9b', dark: '#239f18'}
-  const file = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-  const rank = ['8', '7', '6', '5', '4', '3', '2', '1']
-  return (
-    <BoardWrapper>
-      {layout.map((row, i) => row.map((square, j) => {
-        const tileColor = i % 2 === 0  ? {a: tile.lite, b: tile.dark} : {a: tile.dark, b: tile.lite}
-      const isWhite = square === square.toUpperCase()      
-      return (<Square key={`${i}-${j}`} color={j % 2 === 0 ? tileColor.a : tileColor.b}>
-        <Icon icon={createIconString(square)} color={isWhite ? '#fff': '#000'} className={`game-piece ${isWhite ? 'white' : 'black'}-piece`} />
-        {/* <ChessPiece name={getName()} /> */}
-          <CoordinatesMarker>{file[j] + rank[i]}</CoordinatesMarker>
-        </Square>
-      )
-      }))}
-    </BoardWrapper>
-  )
 }

@@ -21,3 +21,8 @@ body {
   stroke: white;
   stroke-width: 15px;
 }
+
+.selected {
+  stroke: yellow;
+  stroke-width: 20px;
+}
