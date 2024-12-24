@@ -1,75 +1,13 @@
-# Nuxt UI Minimal Starter
+# Chess App
 
-Look at [Nuxt docs](https://nuxt.com/docs/getting-started/introduction) and [Nuxt UI docs](https://ui.nuxt.com) to learn more.
+A feature-rich chess web application built with Nuxt 3, Supabase, and Chess.js.
 
-## Setup
+[Link to App](https://chess.joshmclain.com/)
 
-Make sure to install the dependencies:
+## Features
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Google OAuth via Supabase
+- Real-time chat, online users, and game invitations
+- Player profile game history and insights
+- Animated chessboard using Chess.js
+- Dockerized development
