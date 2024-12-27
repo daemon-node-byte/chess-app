@@ -4,13 +4,22 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "pnpm exec nuxi dev --dotenv .env.development",
+    "dev:local": "pnpm exec nuxi dev --dotenv .env.local",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "prisma:migrate:local": "dotenv -e .env.local -o -- pnpm dlx prisma migrate dev",
+    "prisma:generate:local": "dotenv -e .env.local -o -- pnpm dlx prisma generate",
+    "prisma:studio:local": "dotenv -e .env.local -o -- pnpm dlx prisma studio",
+    "prisma:push:local": "dotenv -e .env.local -o -- pnpm dlx prisma db push",
+    "prisma:pull:local": "dotenv -e .env.local -o -- pnpm dlx prisma db pull",
+    "prisma:format": "pnpm dlx prisma format",
+    "prisma:validate": "pnpm dlx prisma validate"
   },
   "devDependencies": {
     "@iconify-json/devicon": "^1.2.10",
+    "@iconify-json/tdesign": "^1.2.6",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "0.7.4",
     "@nuxt/test-utils": "^3.15.1",
@@ -23,12 +32,15 @@
     "happy-dom": "^15.11.7",
     "nuxt": "^3.14.1592",
     "playwright-core": "^1.49.1",
+    "prisma": "^6.1.0",
+    "supabase": "^2.1.1",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8",
     "vue": "latest"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.9.0",
+    "@prisma/client": "6.1.0",
     "chess.js": "1.0.0-beta.8",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0"

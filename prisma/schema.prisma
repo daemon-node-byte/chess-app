@@ -1,0 +1,59 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions")]
+}
+
+model chat {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String    @db.Uuid
+  message    String
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  lobby_id   String?   @db.Uuid
+  game_id    String?   @db.Uuid
+  games      games?    @relation(fields: [game_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  lobby      lobby?    @relation(fields: [lobby_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([created_at(sort: Desc)], map: "idx_chat_created_at")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model games {
+  id                               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  host_user                        String    @db.Uuid
+  opponent_user                    String?   @db.Uuid
+  status                           String    @db.VarChar(15)
+  created_at                       DateTime? @default(now()) @db.Timestamp(6)
+  chat                             chat[]
+  users_games_host_userTousers     users     @relation("games_host_userTousers", fields: [host_user], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_games_opponent_userTousers users?    @relation("games_opponent_userTousers", fields: [opponent_user], references: [id], onUpdate: NoAction)
+
+  @@index([status], map: "idx_games_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id                               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username                         String    @unique(map: "unique_username") @db.VarChar(50)
+  status                           String    @db.VarChar(10)
+  created_at                       DateTime? @default(now()) @db.Timestamp(6)
+  chat                             chat[]
+  games_games_host_userTousers     games[]   @relation("games_host_userTousers")
+  games_games_opponent_userTousers games[]   @relation("games_opponent_userTousers")
+
+  @@index([status], map: "idx_users_status")
+}
+
+model lobby {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String    @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  chat       chat[]
+}
