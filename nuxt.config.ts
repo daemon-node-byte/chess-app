@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { fileURLToPath } from "node:url";
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
@@ -10,6 +11,16 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate/nuxt",
     '@nuxt/test-utils/module'
   ],
+  vite: {
+    test: {
+      environmentOptions: {
+        nuxt: {
+          rootDir: fileURLToPath(new URL("./playground", import.meta.url)),
+          mock: { indexedDb: true, intersectionObserver: true },
+        }
+      }
+    }
+  },
 
   supabase: {
     url: process.env.SUPABASE_URL,

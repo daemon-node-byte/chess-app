@@ -43,7 +43,7 @@ const items = ref([
 
 <template>
   <UDropdown :items="items" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-end' }">
-    <UAvatar :src="props.avatar" :alt="props.alt" class="outline outline-primary" />
+    <UAvatar :src="props.avatar" :alt="props.alt" icon="i-ic-outline-account-circle" class="outline outline-primary" />
 
     <template #account="{ item }">
       <div class="text-left">
