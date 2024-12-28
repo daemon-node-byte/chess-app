@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  username: string
+  username?: string
   email: string
   avatar: string
   alt: string

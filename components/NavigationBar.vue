@@ -35,7 +35,7 @@ const links = [
     <template #avatar="{ link }">
       <template v-if="link.avatar">
         <UserAvatarMenu 
-          :avatar="link.avatar.src || null" :alt="link.avatar.alt || 'user avatar'" 
+          :avatar="link.avatar.src || ''" :alt="link.avatar.alt || 'user avatar'" 
           :email="user?.user_metadata.email"
           :username="user?.user_metadata.full_name" />
       </template>
