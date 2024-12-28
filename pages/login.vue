@@ -6,11 +6,10 @@ const password = ref('')
 
 const emailLogin = async () => {
   try {
-const { data, error } = await supabase.auth.signInWithPassword({ email: email.value, password: password.value })
+const { error } = await supabase.auth.signInWithPassword({ email: email.value, password: password.value })
 if (error) {
   throw createError(`login failed: ${error}`)
 }
-console.log("🚀 ~ emailLogin ~ data:", data)
 
   } catch (error) {
     console.error(error)

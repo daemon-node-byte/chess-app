@@ -10,8 +10,8 @@ const username = ref('')
 const registerUser = async () => {
   try {
 
-    const response = await (await authHandler).signUpUser(email.value, password.value)
-    console.log(response)
+    await (await authHandler).signUpUser(email.value, password.value)
+
     
 
   } catch (error) {
