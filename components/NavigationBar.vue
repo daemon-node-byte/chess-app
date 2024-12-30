@@ -5,7 +5,7 @@ const user = useSupabaseUser().value
 const unauthorizedLinks = [
   {
     label: 'Login',
-    icon: 'login',
+    icon: '',
     to: '/login',
   }
 ]
@@ -39,7 +39,9 @@ const links = [
           :email="user?.user_metadata.email"
           :username="user?.user_metadata.full_name" />
       </template>
-
+      <template v-if="link.to === '/'">
+        <img src="/logov2.svg" alt="lain-chess logo" class="h-12 w-12">
+      </template>
     </template>
   </UHorizontalNavigation>
 </template>
