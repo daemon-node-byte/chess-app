@@ -1,8 +1,10 @@
 # Chess App
 
-A feature-rich chess web application built with Nuxt 3, Supabase, and Chess.js.
+This is app my version of [LiChess.org](https://lichess.org). Intended to be a learning project. 
 
 [Link to App](https://chess.joshmclain.com/)
+
+[development resources](./DEV.md)
 
 ## Feature Completion 
 
@@ -78,4 +80,5 @@ cp .env.example .env.local
 pnpm prisma:push:local
 ```
 
+TO BE CONTINUED
 
