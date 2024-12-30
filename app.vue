@@ -3,5 +3,6 @@
    <!-- TODO: inject notification and popup components -->
   <NuxtLayout>  
     <NuxtPage />
+    <UNotifications />
   </NuxtLayout>
 </template>
