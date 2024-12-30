@@ -74,3 +74,9 @@ export interface Game {
   fen: string | null;
   pgn: string | null;
 }
+
+export interface UserProfile {
+  username: string;
+  id: string;
+  avatar_url?: string;
+}

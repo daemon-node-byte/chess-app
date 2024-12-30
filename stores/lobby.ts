@@ -1,7 +1,13 @@
-import type { Database } from "~/types/database.types";
+import type { Database,  } from "~/types/database.types";
+
+interface LobbyStore {
+  onlineUsers: Database['public']['Tables']['users']['Row'][];
+  openGames: Database['public']['Tables']['games']['Row'][];
+  chatMessages: Database['public']['Tables']['chat']['Row'][];
+}
 
 export const useLobbyStore = defineStore('lobby', {
-  state: () => ({
+  state: (): LobbyStore => ({
     onlineUsers: [],
     openGames: [],
     chatMessages: [],
