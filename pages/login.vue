@@ -10,7 +10,7 @@ const { error } = await supabase.auth.signInWithPassword({ email: email.value, p
 if (error) {
   throw createError(`login failed: ${error}`)
 }
-
+ navigateTo('/lobby');
   } catch (error) {
     console.error(error)
     throw createError(`login failed: ${error}`)
